@@ -25,11 +25,9 @@ const Logo = styled.img`
   padding: 10px;
   background-color: #2d3034;
   color: #e6e6e6;
-  float: left;
 `;
 
 const Title = styled.div`
-  float: left;
   line-height: 50px;
   color: #e6e6e6;
   font-size: 20px;
@@ -40,7 +38,6 @@ const Title = styled.div`
 `;
 
 const GHLogo = styled.img`
-  float: right;
   height: 30px;
   padding: 10px;
   background-color: #2d3034;
