@@ -1,27 +1,49 @@
 import React, { useEffect, useRef } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Header } from "./components/Header";
-import { useMeasure } from "react-use";
+import { useMeasure, useMount, useRafLoop, useRafState } from "react-use";
+import { mainLoop } from "./genetic";
 
 export const App = () => {
   const [containerRef, { width, height }] = useMeasure<HTMLDivElement>();
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const [generation, setGeneration] = useRafState(0);
 
   // Canvas resize
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const lowestDimension = Math.min(width, height, 320);
+    const lowestDimension = Math.min(width, height, 350);
     canvas.width = lowestDimension;
     canvas.height = lowestDimension;
   }, [width, height]);
+
+  const [stopLoop, startLoop, isActive] = useRafLoop(() => {
+    setGeneration((prev) => prev + 1);
+    mainLoop();
+  });
+
+  useMount(() => {
+    startLoop();
+  });
+
+  const isLoopActive = isActive();
 
   return (
     <>
       <GlobalStyle />
       <Header />
       <Content ref={containerRef}>
-        <Canvas ref={canvasRef} />
+        <div>
+          <Info>Generation: {generation}</Info>
+          <Canvas ref={canvasRef} />
+          <Button
+            isActive={isLoopActive}
+            onClick={isLoopActive ? stopLoop : startLoop}
+          >
+            {isLoopActive ? "Stop" : "Start"}
+          </Button>
+        </div>
       </Content>
     </>
   );
@@ -38,6 +60,10 @@ body {
   font-family: 'Rajdhani', Microsoft JhengHei, sans-serif;
   background-color: #151515;
   height: 100%;
+}
+
+button{
+  font-family: 'Rajdhani', Microsoft JhengHei, sans-serif;
 }
 
 #root {
@@ -57,4 +83,21 @@ const Content = styled.div`
 
 const Canvas = styled.canvas`
   background-color: #000000;
+`;
+
+const Info = styled.div`
+  background-color: #2d3034;
+  padding: 5px 10px;
+  color: #fff;
+`;
+
+const Button = styled.button<{ isActive: boolean }>`
+  display: block;
+  width: 100%;
+  padding: 5px 10px;
+  background-color: ${({ isActive }) => (isActive ? "#f50057" : "#1565c0")};
+  border: 0;
+  color: #fff;
+  position: relative;
+  top: -4px;
 `;
