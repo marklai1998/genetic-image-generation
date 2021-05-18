@@ -1,3 +1,5 @@
+import { range } from "ramda";
+
 let population: Chromo[] = [];
 
 class Point {
@@ -15,12 +17,12 @@ class Polygon {
   color: [r: number, g: number, b: number, alpha: number] = [0, 0, 0, 0];
 
   constructor(vertices: number) {
-    this.vertices = new Array(vertices).map(() => new Point());
+    this.vertices = range(0, vertices).map(() => new Point());
     this.color = [Math.random(), Math.random(), Math.random(), 0.15];
   }
 }
 
-class Chromo {
+export class Chromo {
   fitness: number = 0;
   polygon: Polygon[] = [];
 
@@ -31,7 +33,7 @@ class Chromo {
     polyCount: number;
     vertices: number;
   }) {
-    this.polygon = new Array(polyCount).map(() => new Polygon(vertices));
+    this.polygon = range(0, polyCount).map(() => new Polygon(vertices));
     this.calculateFitness();
   }
 
@@ -56,9 +58,7 @@ export const init = ({
   polyCount: number;
   vertices: number;
 }) => {
-  population = new Array(popSize).map(
-    () => new Chromo({ polyCount, vertices })
-  );
+  population = range(0, popSize).map(() => new Chromo({ polyCount, vertices }));
 };
 
 export const mainLoop = () => {

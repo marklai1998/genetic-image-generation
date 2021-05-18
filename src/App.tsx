@@ -1,8 +1,8 @@
-import React, { useEffect, useRef } from "react";
+import React, { useCallback, useEffect, useRef } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Header } from "./components/Header";
 import { useMeasure, useMount, useRafLoop, useRafState } from "react-use";
-import { init, mainLoop } from "./genetic";
+import { Chromo, init, mainLoop } from "./genetic";
 
 const POP_SIZE = 30;
 const POLY_COUNT = 150;
@@ -24,11 +24,44 @@ export const App = () => {
     canvas.height = lowestDimension;
   }, [width, height]);
 
+  const drawChromo = useCallback(
+    (chromo: Chromo) => {
+      const canvas = canvasRef.current;
+      if (!canvas) return;
+      const width = canvas.width;
+      const height = canvas.height;
+
+      const ctx = canvas.getContext("2d");
+      if (!ctx) return;
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      chromo.polygon.forEach((polygon) => {
+        const [firstPt, ...restPoint] = polygon.vertices;
+        const color = polygon.color;
+        ctx.fillStyle = `rgba(${color[0] * 255}, ${color[1] * 255}, ${
+          color[2] * 255
+        }, ${color[3]})`;
+
+        ctx.beginPath();
+        ctx.moveTo(firstPt.x * width, firstPt.y * height);
+        restPoint.forEach((point) => {
+          ctx.lineTo(point.x * width, point.y * height);
+        });
+
+        ctx.closePath();
+        ctx.fill();
+      });
+    },
+    [canvasRef]
+  );
+
   const [stopLoop, startLoop, isActive] = useRafLoop((time) => {
     setFrameTimeDelta(time - frameTime);
     setFrameTime(time);
     setGeneration((prev) => prev + 1);
-    mainLoop();
+    const population = mainLoop();
+    const bestChromo = population[0];
+    drawChromo(bestChromo);
   });
 
   useMount(() => {
