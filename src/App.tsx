@@ -2,7 +2,11 @@ import React, { useEffect, useRef } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Header } from "./components/Header";
 import { useMeasure, useMount, useRafLoop, useRafState } from "react-use";
-import { mainLoop } from "./genetic";
+import { init, mainLoop } from "./genetic";
+
+const POP_SIZE = 30;
+const POLY_COUNT = 150;
+const VERTICES = 3;
 
 export const App = () => {
   const [containerRef, { width, height }] = useMeasure<HTMLDivElement>();
@@ -28,6 +32,7 @@ export const App = () => {
   });
 
   useMount(() => {
+    init({ popSize: POP_SIZE, vertices: VERTICES, polyCount: POLY_COUNT });
     startLoop();
   });
 
