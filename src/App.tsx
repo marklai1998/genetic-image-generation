@@ -1,13 +1,27 @@
-import React from "react";
+import React, { useEffect, useRef } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Header } from "./components/Header";
+import { useMeasure } from "react-use";
 
 export const App = () => {
+  const [containerRef, { width, height }] = useMeasure<HTMLDivElement>();
+  const canvasRef = useRef<HTMLCanvasElement>(null);
+
+  // Canvas resize
+  useEffect(() => {
+    const canvas = canvasRef.current;
+    if (!canvas) return;
+    const lowestDimension = Math.min(width, height, 320);
+    canvas.width = lowestDimension;
+    canvas.height = lowestDimension;
+  }, [width, height]);
+
   return (
     <>
       <GlobalStyle />
       <Header />
-      <Content>
+      <Content ref={containerRef}>
+        <Canvas ref={canvasRef} />
       </Content>
     </>
   );
@@ -38,4 +52,9 @@ const Content = styled.div`
   display: flex;
   align-items: center;
   justify-content: center;
+  overflow: auto;
+`;
+
+const Canvas = styled.canvas`
+  background-color: #000000;
 `;
