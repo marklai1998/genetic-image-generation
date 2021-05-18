@@ -8,6 +8,8 @@ export const App = () => {
   const [containerRef, { width, height }] = useMeasure<HTMLDivElement>();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const [generation, setGeneration] = useRafState(0);
+  const [frameTime, setFrameTime] = useRafState(0);
+  const [frameTimeDelta, setFrameTimeDelta] = useRafState(0);
 
   // Canvas resize
   useEffect(() => {
@@ -18,7 +20,9 @@ export const App = () => {
     canvas.height = lowestDimension;
   }, [width, height]);
 
-  const [stopLoop, startLoop, isActive] = useRafLoop(() => {
+  const [stopLoop, startLoop, isActive] = useRafLoop((time) => {
+    setFrameTimeDelta(time - frameTime);
+    setFrameTime(time);
     setGeneration((prev) => prev + 1);
     mainLoop();
   });
@@ -35,7 +39,10 @@ export const App = () => {
       <Header />
       <Content ref={containerRef}>
         <div>
-          <Info>Generation: {generation}</Info>
+          <Info>
+            Generation: {generation}
+            <FPS>FPS: {Math.round((1000 / frameTimeDelta) * 100) / 100}</FPS>
+          </Info>
           <Canvas ref={canvasRef} />
           <Button
             isActive={isLoopActive}
@@ -89,6 +96,10 @@ const Info = styled.div`
   background-color: #2d3034;
   padding: 5px 10px;
   color: #fff;
+`;
+
+const FPS = styled.div`
+  float: right;
 `;
 
 const Button = styled.button<{ isActive: boolean }>`
