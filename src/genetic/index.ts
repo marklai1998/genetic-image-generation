@@ -24,18 +24,25 @@ export const init = async ({
 
   const img = new Image();
   img.onload = async () => {
-    const width = img.width;
-    const height = img.height;
+    const canvasHeight = 350;
+    const canvasWidth = 350;
 
-    Chromo.refChromoCanvas.width = width;
-    Chromo.refChromoCanvas.height = height;
+    Chromo.refChromoCanvas.width = canvasWidth;
+    Chromo.refChromoCanvas.height = canvasHeight;
 
     const refImageCanvas = document.createElement("canvas");
     const ctx = refImageCanvas.getContext("2d");
     if (!ctx) return;
 
-    refImageCanvas.width = width;
-    refImageCanvas.height = height;
+    refImageCanvas.width = canvasWidth;
+    refImageCanvas.height = canvasHeight;
+
+    const { width: imgWidth, height: imageHeight } = img;
+
+    Chromo.imgScale = Math.min(
+      canvasWidth / imgWidth,
+      canvasHeight / imageHeight
+    );
 
     ctx.drawImage(img, 0, 0);
     Chromo.refImageData = getCanvasData(refImageCanvas);

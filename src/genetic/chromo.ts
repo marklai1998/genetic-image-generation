@@ -84,10 +84,12 @@ export class Polygon {
 }
 
 export class Chromo {
-  static polyCount = 0;
-  static verticesCount = 0;
   static refImageData: Uint8ClampedArray = new Uint8ClampedArray();
   static refChromoCanvas = document.createElement("canvas");
+  static imgScale = 1;
+
+  static polyCount = 0;
+  static verticesCount = 0;
 
   fitness: number = 0;
   polygons: Polygon[] = [];
