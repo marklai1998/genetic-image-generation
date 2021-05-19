@@ -1,7 +1,7 @@
 import React, { useEffect, useRef } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Header } from "./components/Header";
-import { useMeasure, useMount, useRafLoop, useRafState } from "react-use";
+import { useMeasure, useMount, useRafLoop } from "react-use";
 import { init, mainLoop, drawChromo } from "./genetic";
 import mona from "./assets/mona.png";
 
@@ -12,12 +12,7 @@ const VERTICES = 3;
 export const App = () => {
   const [containerRef, { width, height }] = useMeasure<HTMLDivElement>();
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const refChromoCanvasRef = useRef<HTMLCanvasElement>(null);
   const refImageCanvasRef = useRef<HTMLCanvasElement>(null);
-
-  const [generation, setGeneration] = useRafState(0);
-  const [frameTime, setFrameTime] = useRafState(0);
-  const [frameTimeDelta, setFrameTimeDelta] = useRafState(0);
 
   // Canvas resize
   useEffect(() => {
@@ -28,32 +23,23 @@ export const App = () => {
     canvas.height = lowestDimension;
   }, [width, height]);
 
-  const [stopLoop, startLoop, isActive] = useRafLoop(async (time) => {
-    setFrameTimeDelta(time - frameTime);
-    setFrameTime(time);
-    setGeneration((prev) => prev + 1);
-    const population = await mainLoop();
+  const [stopLoop, startLoop, isActive] = useRafLoop(async () => {
+    const { population } = await mainLoop();
     const bestChromo = population[0];
-
     const canvas = canvasRef.current;
     if (!canvas) return;
-
-    drawChromo(bestChromo, canvas);
+    drawChromo(bestChromo, canvas, true);
   }, false);
 
   useMount(() => {
     const refImageCanvas = refImageCanvasRef.current;
-    const refChromoCanvas = refChromoCanvasRef.current;
 
-    if (!refImageCanvas || !refChromoCanvas) return;
+    if (!refImageCanvas) return;
 
     const ctx = refImageCanvas.getContext("2d");
     if (ctx) {
       const img = new Image();
       img.onload = () => {
-        refChromoCanvas.width = img.width;
-        refChromoCanvas.height = img.height;
-
         refImageCanvas.width = img.width;
         refImageCanvas.height = img.height;
         ctx.drawImage(img, 0, 0);
@@ -63,7 +49,6 @@ export const App = () => {
           vertices: VERTICES,
           polyCount: POLY_COUNT,
           refImageCanvas,
-          refChromoCanvas,
         });
       };
       img.src = mona;
@@ -75,15 +60,10 @@ export const App = () => {
   return (
     <>
       <GlobalStyle />
-      <RefCanvas ref={refChromoCanvasRef} />
       <RefCanvas ref={refImageCanvasRef} />
       <Header />
       <Content ref={containerRef}>
         <div>
-          <Info>
-            Generation: {generation}
-            <FPS>FPS: {Math.round((1000 / frameTimeDelta) * 100) / 100}</FPS>
-          </Info>
           <Canvas ref={canvasRef} />
           <Button
             isActive={isLoopActive}
@@ -131,16 +111,6 @@ const Content = styled.div`
 
 const Canvas = styled.canvas`
   background-color: #000000;
-`;
-
-const Info = styled.div`
-  background-color: #2d3034;
-  padding: 5px 10px;
-  color: #fff;
-`;
-
-const FPS = styled.div`
-  float: right;
 `;
 
 const Button = styled.button<{ isActive: boolean }>`

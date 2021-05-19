@@ -1,2 +1,0 @@
-import { Chromo } from "./genetic";
-
