@@ -1,9 +1,9 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Header } from "./components/Header";
 import { useMeasure, useMount, useRafLoop } from "react-use";
-import { init, mainLoop, drawChromo } from "./genetic";
-import mona from "./assets/mona.png";
+import { generation, init, mainLoop, population } from "./genetic";
+import { drawChromo } from "./genetic/utils";
 
 const POP_SIZE = 30;
 const POLY_COUNT = 150;
@@ -11,8 +11,8 @@ const VERTICES = 3;
 
 export const App = () => {
   const [containerRef, { width, height }] = useMeasure<HTMLDivElement>();
+  const [start, setStart] = useState(false);
   const canvasRef = useRef<HTMLCanvasElement>(null);
-  const refImageCanvasRef = useRef<HTMLCanvasElement>(null);
 
   // Canvas resize
   useEffect(() => {
@@ -23,53 +23,57 @@ export const App = () => {
     canvas.height = lowestDimension;
   }, [width, height]);
 
-  const [stopLoop, startLoop, isActive] = useRafLoop(async () => {
-    const { population } = await mainLoop();
+  useEffect(() => {
+    const loop = async () => {
+      while (start) {
+        await mainLoop();
+      }
+    };
+
+    start && loop();
+  }, [start]);
+
+  const [stopLoop, startLoop] = useRafLoop(async () => {
     const bestChromo = population[0];
     const canvas = canvasRef.current;
     if (!canvas) return;
-    drawChromo(bestChromo, canvas, true);
+    drawChromo(bestChromo, canvas);
+
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+    ctx.font = "16px Rajdhani";
+    ctx.fillStyle = "white";
+    ctx.fillText(`Generation: ${generation}`, 10, 16);
+    ctx.fillText(`Fitness: ${bestChromo.fitness}`, 10, 32);
   }, false);
 
   useMount(() => {
-    const refImageCanvas = refImageCanvasRef.current;
-
-    if (!refImageCanvas) return;
-
-    const ctx = refImageCanvas.getContext("2d");
-    if (ctx) {
-      const img = new Image();
-      img.onload = () => {
-        refImageCanvas.width = img.width;
-        refImageCanvas.height = img.height;
-        ctx.drawImage(img, 0, 0);
-
-        init({
-          popSize: POP_SIZE,
-          vertices: VERTICES,
-          polyCount: POLY_COUNT,
-          refImageCanvas,
-        });
-      };
-      img.src = mona;
-    }
+    init({
+      popSize: POP_SIZE,
+      vertices: VERTICES,
+      polyCount: POLY_COUNT,
+    });
   });
 
-  const isLoopActive = isActive();
+  const handleFlip = () => {
+    if (start) {
+      setStart(false);
+      stopLoop();
+    } else {
+      setStart(true);
+      startLoop();
+    }
+  };
 
   return (
     <>
       <GlobalStyle />
-      <RefCanvas ref={refImageCanvasRef} />
       <Header />
       <Content ref={containerRef}>
         <div>
           <Canvas ref={canvasRef} />
-          <Button
-            isActive={isLoopActive}
-            onClick={isLoopActive ? stopLoop : startLoop}
-          >
-            {isLoopActive ? "Stop" : "Start"}
+          <Button isActive={start} onClick={handleFlip}>
+            {start ? "Stop" : "Start"}
           </Button>
         </div>
       </Content>
@@ -122,8 +126,4 @@ const Button = styled.button<{ isActive: boolean }>`
   color: #fff;
   position: relative;
   top: -4px;
-`;
-
-const RefCanvas = styled.canvas`
-  display: none;
 `;
