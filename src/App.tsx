@@ -1,11 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Header } from "./components/Header";
-import { useMeasure, useMount, useRafLoop } from "react-use";
+import { useMeasure, useRafLoop } from "react-use";
 import { generation, init, mainLoop, population } from "./genetic";
 import { drawChromo, drawImg } from "./genetic/utils";
 import ReactCardFlip from "react-card-flip";
 import mona from "./assets/mona.png";
+import { head } from "ramda";
 
 const POP_SIZE = 50;
 const POLY_COUNT = 150;
@@ -15,9 +16,11 @@ export const App = () => {
   const [containerRef, { width, height }] = useMeasure<HTMLDivElement>();
   const [start, setStart] = useState(false);
   const [viewSourceImg, setViewSourceImg] = useState(false);
+  const [refImage, setRefImg] = useState(mona);
 
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const refImageRef = useRef<HTMLCanvasElement>(null);
+  const imageInputRef = useRef<HTMLInputElement>(null);
 
   // Canvas resize
   useEffect(() => {
@@ -35,14 +38,12 @@ export const App = () => {
 
   useEffect(() => {
     const loop = async () => {
-      while (start) {
-        await mainLoop();
-      }
+      while (start) await mainLoop();
     };
-
     start && loop();
   }, [start]);
 
+  // Draw best chromo on screen
   const [stopLoop, startLoop] = useRafLoop(async () => {
     const bestChromo = population[0];
     const canvas = canvasRef.current;
@@ -57,19 +58,25 @@ export const App = () => {
     ctx.fillText(`Fitness: ${bestChromo.fitness}`, 10, 32);
   }, false);
 
-  useMount(async () => {
-    init({
-      refImage: mona,
-      popSize: POP_SIZE,
-      vertices: VERTICES,
-      polyCount: POLY_COUNT,
-    });
-    const refImageCanvas = refImageRef.current;
-    if (!refImageCanvas) return;
-    await drawImg(mona, refImageCanvas);
-  });
+  useEffect(() => {
+    const setup = async () => {
+      setStart(false);
+      stopLoop();
 
-  const handleFlip = () => {
+      await init({
+        refImage: refImage,
+        popSize: POP_SIZE,
+        vertices: VERTICES,
+        polyCount: POLY_COUNT,
+      });
+      const refImageCanvas = refImageRef.current;
+      if (!refImageCanvas) return;
+      await drawImg(refImage, refImageCanvas);
+    };
+    setup();
+  }, [refImage, stopLoop]);
+
+  const handleFlipStart = () => {
     if (start) {
       setStart(false);
       stopLoop();
@@ -77,6 +84,17 @@ export const App = () => {
       setStart(true);
       startLoop();
     }
+  };
+
+  const handleFileSelected = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = Array.from(e.target.files || []);
+    const img = head(files);
+
+    if (!img) return;
+
+    const reader = new FileReader();
+    reader.readAsDataURL(img);
+    reader.onload = () => setRefImg(String(reader.result));
   };
 
   return (
@@ -93,13 +111,37 @@ export const App = () => {
           >
             {viewSourceImg ? "View Generation" : "View Source Image"}
           </Button>
-          <ReactCardFlip isFlipped={viewSourceImg} flipDirection="vertical">
-            <Canvas ref={canvasRef} />
-            <Canvas ref={refImageRef} />
+          <ReactCardFlip isFlipped={viewSourceImg} flipDirection="horizontal">
+            <div>
+              <Canvas ref={canvasRef} />
+              <Button
+                color={start ? "#f50057" : "#1565c0"}
+                onClick={handleFlipStart}
+              >
+                {start ? "Stop" : "Start"}
+              </Button>
+            </div>
+            <div>
+              <Canvas ref={refImageRef} />
+              <Button
+                color="#3c4043"
+                onClick={() => {
+                  if (imageInputRef.current) {
+                    imageInputRef.current.click();
+                  }
+                }}
+              >
+                Change Image
+              </Button>
+              <StyledFileInput
+                type="file"
+                name="source"
+                accept="image/*"
+                onChange={handleFileSelected}
+                ref={imageInputRef}
+              />
+            </div>
           </ReactCardFlip>
-          <Button color={start ? "#f50057" : "#1565c0"} onClick={handleFlip}>
-            {start ? "Stop" : "Start"}
-          </Button>
         </div>
       </Content>
     </>
@@ -151,4 +193,8 @@ const Button = styled.button<{ color: string }>`
   color: #fff;
   position: relative;
   top: -4px;
+`;
+
+const StyledFileInput = styled.input`
+  display: none;
 `;

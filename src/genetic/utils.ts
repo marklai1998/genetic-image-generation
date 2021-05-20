@@ -10,6 +10,8 @@ export const drawImg = (src: string, canvas: HTMLCanvasElement) =>
       const { width: imgWidth, height: imageHeight } = img;
       const { width: canvasWidth, height: canvasHeight } = canvas;
 
+      ctx.clearRect(0, 0, canvasWidth, canvasHeight);
+
       const imgScale = Math.min(
         canvasWidth / imgWidth,
         canvasHeight / imageHeight
