@@ -1,7 +1,7 @@
 import { Chromo } from "./chromo";
 
 export const drawImg = (src: string, canvas: HTMLCanvasElement) =>
-  new Promise<void>((resolve) => {
+  new Promise<number>((resolve) => {
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
 
@@ -16,9 +16,10 @@ export const drawImg = (src: string, canvas: HTMLCanvasElement) =>
       );
 
       ctx.drawImage(img, 0, 0, imgWidth * imgScale, imageHeight * imgScale);
+
+      resolve(imgScale);
     };
     img.src = src;
-    resolve();
   });
 
 export const drawChromo = (chromo: Chromo, canvas: HTMLCanvasElement) => {

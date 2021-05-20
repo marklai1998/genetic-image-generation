@@ -1,20 +1,20 @@
 import { range } from "ramda";
 
-import mona from "../assets/mona.png";
-
 import { Chromo } from "./chromo";
 import { eliteScheme } from "./evolveScheme/eliteScheme";
 // import { randomScheme } from "./evolveScheme/randomScheme";
-import { getCanvasData } from "./utils";
+import { drawImg, getCanvasData } from "./utils";
 
 export let generation = 0;
 export let population: Chromo[] = [];
 
 export const init = async ({
+  refImage,
   popSize,
   polyCount: pCount,
   vertices: vCount,
 }: {
+  refImage: string;
   popSize: number;
   polyCount: number;
   vertices: number;
@@ -23,37 +23,26 @@ export const init = async ({
   Chromo.polyCount = pCount;
   Chromo.verticesCount = vCount;
 
-  const img = new Image();
-  img.onload = async () => {
-    const canvasHeight = 350;
-    const canvasWidth = 350;
+  const canvasHeight = 350;
+  const canvasWidth = 350;
 
-    Chromo.refChromoCanvas.width = canvasWidth;
-    Chromo.refChromoCanvas.height = canvasHeight;
+  Chromo.refChromoCanvas.width = canvasWidth;
+  Chromo.refChromoCanvas.height = canvasHeight;
 
-    const refImageCanvas = document.createElement("canvas");
-    const ctx = refImageCanvas.getContext("2d");
-    if (!ctx) return;
+  const refImageCanvas = document.createElement("canvas");
+  refImageCanvas.width = canvasWidth;
+  refImageCanvas.height = canvasHeight;
 
-    refImageCanvas.width = canvasWidth;
-    refImageCanvas.height = canvasHeight;
+  const imgScale = await drawImg(refImage, refImageCanvas);
+  Chromo.imgScale = imgScale;
 
-    const { width: imgWidth, height: imageHeight } = img;
+  Chromo.refImageData = getCanvasData(refImageCanvas);
 
-    Chromo.imgScale = Math.min(
-      canvasWidth / imgWidth,
-      canvasHeight / imageHeight
-    );
+  refImageCanvas.remove();
 
-    ctx.drawImage(img, 0, 0);
-    Chromo.refImageData = getCanvasData(refImageCanvas);
-    refImageCanvas.remove();
-
-    const newPopulation = range(0, popSize).map(() => new Chromo());
-    await Promise.all(newPopulation.map((chromo) => chromo.calculateFitness()));
-    population = newPopulation;
-  };
-  img.src = mona;
+  const newPopulation = range(0, popSize).map(() => new Chromo());
+  await Promise.all(newPopulation.map((chromo) => chromo.calculateFitness()));
+  population = newPopulation;
 };
 
 export const mainLoop = async () => {

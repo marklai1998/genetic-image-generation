@@ -26,6 +26,7 @@ export const App = () => {
     const lowestDimension = Math.min(width, height, 350);
     canvas.width = lowestDimension;
     canvas.height = lowestDimension;
+
     const refImageCanvas = refImageRef.current;
     if (!refImageCanvas) return;
     refImageCanvas.width = lowestDimension;
@@ -58,6 +59,7 @@ export const App = () => {
 
   useMount(async () => {
     init({
+      refImage: mona,
       popSize: POP_SIZE,
       vertices: VERTICES,
       polyCount: POLY_COUNT,
