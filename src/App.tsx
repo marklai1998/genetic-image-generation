@@ -3,7 +3,9 @@ import styled, { createGlobalStyle } from "styled-components";
 import { Header } from "./components/Header";
 import { useMeasure, useMount, useRafLoop } from "react-use";
 import { generation, init, mainLoop, population } from "./genetic";
-import { drawChromo } from "./genetic/utils";
+import { drawChromo, drawImg } from "./genetic/utils";
+import ReactCardFlip from "react-card-flip";
+import mona from "./assets/mona.png";
 
 const POP_SIZE = 50;
 const POLY_COUNT = 150;
@@ -12,7 +14,10 @@ const VERTICES = 3;
 export const App = () => {
   const [containerRef, { width, height }] = useMeasure<HTMLDivElement>();
   const [start, setStart] = useState(false);
+  const [viewSourceImg, setViewSourceImg] = useState(false);
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
+  const refImageRef = useRef<HTMLCanvasElement>(null);
 
   // Canvas resize
   useEffect(() => {
@@ -21,6 +26,10 @@ export const App = () => {
     const lowestDimension = Math.min(width, height, 350);
     canvas.width = lowestDimension;
     canvas.height = lowestDimension;
+    const refImageCanvas = refImageRef.current;
+    if (!refImageCanvas) return;
+    refImageCanvas.width = lowestDimension;
+    refImageCanvas.height = lowestDimension;
   }, [width, height]);
 
   useEffect(() => {
@@ -47,12 +56,15 @@ export const App = () => {
     ctx.fillText(`Fitness: ${bestChromo.fitness}`, 10, 32);
   }, false);
 
-  useMount(() => {
+  useMount(async () => {
     init({
       popSize: POP_SIZE,
       vertices: VERTICES,
       polyCount: POLY_COUNT,
     });
+    const refImageCanvas = refImageRef.current;
+    if (!refImageCanvas) return;
+    await drawImg(mona, refImageCanvas);
   });
 
   const handleFlip = () => {
@@ -71,8 +83,19 @@ export const App = () => {
       <Header />
       <Content ref={containerRef}>
         <div>
-          <Canvas ref={canvasRef} />
-          <Button isActive={start} onClick={handleFlip}>
+          <Button
+            color="#3c4043"
+            onClick={() => {
+              setViewSourceImg((v) => !v);
+            }}
+          >
+            {viewSourceImg ? "View Generation" : "View Source Image"}
+          </Button>
+          <ReactCardFlip isFlipped={viewSourceImg} flipDirection="vertical">
+            <Canvas ref={canvasRef} />
+            <Canvas ref={refImageRef} />
+          </ReactCardFlip>
+          <Button color={start ? "#f50057" : "#1565c0"} onClick={handleFlip}>
             {start ? "Stop" : "Start"}
           </Button>
         </div>
@@ -117,11 +140,11 @@ const Canvas = styled.canvas`
   background-color: #000000;
 `;
 
-const Button = styled.button<{ isActive: boolean }>`
+const Button = styled.button<{ color: string }>`
   display: block;
   width: 100%;
   padding: 5px 10px;
-  background-color: ${({ isActive }) => (isActive ? "#f50057" : "#1565c0")};
+  background-color: ${({ color }) => color};
   border: 0;
   color: #fff;
   position: relative;

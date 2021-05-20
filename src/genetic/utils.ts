@@ -1,5 +1,26 @@
 import { Chromo } from "./chromo";
 
+export const drawImg = (src: string, canvas: HTMLCanvasElement) =>
+  new Promise<void>((resolve) => {
+    const ctx = canvas.getContext("2d");
+    if (!ctx) return;
+
+    const img = new Image();
+    img.onload = async () => {
+      const { width: imgWidth, height: imageHeight } = img;
+      const { width: canvasWidth, height: canvasHeight } = canvas;
+
+      const imgScale = Math.min(
+        canvasWidth / imgWidth,
+        canvasHeight / imageHeight
+      );
+
+      ctx.drawImage(img, 0, 0, imgWidth * imgScale, imageHeight * imgScale);
+    };
+    img.src = src;
+    resolve();
+  });
+
 export const drawChromo = (chromo: Chromo, canvas: HTMLCanvasElement) => {
   const ctx = canvas.getContext("2d");
   if (!ctx) return;
