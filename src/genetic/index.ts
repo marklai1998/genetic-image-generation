@@ -7,6 +7,7 @@ import { drawImg, getCanvasData } from "./utils";
 
 export let generation = 0;
 export let population: Chromo[] = [];
+export let start = false;
 
 export const init = async ({
   refImage,
@@ -45,9 +46,21 @@ export const init = async ({
   population = newPopulation;
 };
 
-export const mainLoop = async () => {
-  generation = generation + 1;
+const mainLoop = async () => {
+  while (start) {
+    generation = generation + 1;
 
-  // population = await randomScheme(population);
-  population = await eliteScheme(population);
+    // population = await randomScheme(population);
+    const newPopulation = await eliteScheme(population);
+    population = newPopulation;
+  }
+};
+
+export const startLoop = () => {
+  start = true;
+  mainLoop();
+};
+
+export const stopLoop = () => {
+  start = false;
 };

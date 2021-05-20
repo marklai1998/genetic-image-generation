@@ -1,24 +1,28 @@
 import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Header } from "./components/Header";
-import { useMeasure, useRafLoop } from "react-use";
-import { generation, init, mainLoop, population } from "./genetic";
-import { drawChromo, drawImg } from "./genetic/utils";
+import { useMeasure, useRafLoop, useRafState } from "react-use";
+import { init, population, startLoop, stopLoop } from "./genetic";
+import { drawChromo, drawGenerationInfo, drawImg } from "./genetic/utils";
 import ReactCardFlip from "react-card-flip";
 import mona from "./assets/mona.png";
 import { head } from "ramda";
+import { Chromo } from "./genetic/chromo";
+import { ChromoCanvas } from "./components/ChromoCanvas";
 
 const POP_SIZE = 50;
 const POLY_COUNT = 150;
 const VERTICES = 3;
 
 export const App = () => {
-  const [containerRef, { width: containerWidth, height: containerHeight }] =
-    useMeasure<HTMLDivElement>();
+  const [populationClone, setPopulationClone] = useRafState<Chromo[]>([]);
   const [start, setStart] = useState(false);
   const [viewSourceImg, setViewSourceImg] = useState(false);
+  const [showChromoDrawer, setShowChromoDrawer] = useState(false);
   const [refImage, setRefImg] = useState(mona);
 
+  const [containerRef, { width: containerWidth, height: containerHeight }] =
+    useMeasure<HTMLDivElement>();
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const refImageRef = useRef<HTMLCanvasElement>(null);
   const imageInputRef = useRef<HTMLInputElement>(null);
@@ -37,15 +41,9 @@ export const App = () => {
     refImageCanvas.height = lowestDimension;
   }, [containerWidth, containerHeight]);
 
-  useEffect(() => {
-    const loop = async () => {
-      while (start) await mainLoop();
-    };
-    start && loop();
-  }, [start]);
-
   // Draw best chromo on screen
-  const [stopLoop, startLoop] = useRafLoop(async () => {
+  const [stopDrawingLoop, startDrawingLoop] = useRafLoop(async () => {
+    showChromoDrawer && setPopulationClone(population);
     const bestChromo = population[0];
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -53,15 +51,13 @@ export const App = () => {
 
     const ctx = canvas.getContext("2d");
     if (!ctx) return;
-    ctx.font = "16px Rajdhani";
-    ctx.fillStyle = "white";
-    ctx.fillText(`Generation: ${generation}`, 10, 16);
-    ctx.fillText(`Fitness: ${bestChromo.fitness}`, 10, 32);
+    drawGenerationInfo(ctx, bestChromo);
   }, false);
 
   const setup = useCallback(async () => {
-    setStart(false);
     stopLoop();
+    setStart(false);
+    stopDrawingLoop();
 
     await init({
       refImage: refImage,
@@ -72,7 +68,7 @@ export const App = () => {
     const refImageCanvas = refImageRef.current;
     if (!refImageCanvas) return;
     await drawImg(refImage, refImageCanvas);
-  }, [refImage, stopLoop]);
+  }, [refImage, stopDrawingLoop]);
 
   useEffect(() => {
     setup();
@@ -81,9 +77,11 @@ export const App = () => {
   const handleFlipStart = () => {
     if (start) {
       setStart(false);
+      stopDrawingLoop();
       stopLoop();
     } else {
       setStart(true);
+      startDrawingLoop();
       startLoop();
     }
   };
@@ -150,6 +148,34 @@ export const App = () => {
             </div>
           </ReactCardFlip>
         </div>
+        <Drawer>
+          <Button
+            color="#3c4043"
+            onClick={() => {
+              setShowChromoDrawer((v) => !v);
+            }}
+          >
+            View All Chromo
+          </Button>
+          <DrawerContent show={showChromoDrawer}>
+            {showChromoDrawer && (
+              <>
+                {populationClone.map((chromo, index) => (
+                  <ChromoWrapper>
+                    <ChromoId>#{index}</ChromoId>
+                    <ChromoCanvas
+                      chromo={chromo}
+                      containerHeight={230}
+                      containerWidth={230}
+                      key={index + 1}
+                      onDraw={drawGenerationInfo}
+                    />
+                  </ChromoWrapper>
+                ))}
+              </>
+            )}
+          </DrawerContent>
+        </Drawer>
       </Content>
     </>
   );
@@ -199,7 +225,6 @@ const Button = styled.button<{ color: string }>`
   border: 0;
   color: #fff;
   position: relative;
-  top: -4px;
 `;
 
 const InputGroup = styled.div`
@@ -208,4 +233,34 @@ const InputGroup = styled.div`
 
 const StyledFileInput = styled.input`
   display: none;
+`;
+
+const Drawer = styled.div`
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+`;
+
+const DrawerContent = styled.div<{ show: boolean }>`
+  background-color: #242424;
+  width: 100%;
+
+  height: ${({ show }) => (show ? 250 : 0)}px;
+  overflow-x: auto;
+  overflow-y: hidden;
+  white-space: nowrap;
+`;
+
+const ChromoWrapper = styled.div`
+  position: relative;
+  display: inline-block;
+`;
+
+const ChromoId = styled.div`
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  padding: 4px 8px;
+  color: #fff;
+  background-color: #3c4043;
 `;
