@@ -48,10 +48,7 @@ export const App = () => {
     const canvas = canvasRef.current;
     if (!canvas) return;
     drawChromo(bestChromo, canvas);
-
-    const ctx = canvas.getContext("2d");
-    if (!ctx) return;
-    drawGenerationInfo(ctx, bestChromo);
+    drawGenerationInfo(bestChromo, canvas);
   }, false);
 
   const setup = useCallback(async () => {

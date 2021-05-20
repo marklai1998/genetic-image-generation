@@ -1,3 +1,4 @@
+import { generation } from ".";
 import { Chromo } from "./chromo";
 
 export const drawImg = (src: string, canvas: HTMLCanvasElement) =>
@@ -63,4 +64,17 @@ export const getChromoData = (chromo: Chromo) => {
   const data = getCanvasData(canvasEle);
   canvasEle.remove();
   return data;
+};
+
+export const drawGenerationInfo = (
+  chromo: Chromo,
+  canvas: HTMLCanvasElement
+) => {
+  const ctx = canvas.getContext("2d");
+  if (!ctx) return;
+
+  ctx.font = "16px Rajdhani";
+  ctx.fillStyle = "white";
+  ctx.fillText(`Generation: ${generation}`, 10, 16);
+  ctx.fillText(`Fitness: ${chromo.fitness}`, 10, 32);
 };
