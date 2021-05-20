@@ -5,7 +5,7 @@ import { Chromo, Polygon } from "../chromo";
 const CROSSOVER_PROBABILITY = 0.95;
 const MUTATION_PROBABILITY = 0.95;
 
-const crossOverRandScheme = (c1: Chromo, c2: Chromo) => {
+const crossOverRand = (c1: Chromo, c2: Chromo) => {
   const newChromo = new Chromo();
 
   const polyCount = newChromo.polygons.length;
@@ -30,7 +30,7 @@ export const eliteScheme: EvolveScheme = async (population) => {
     sortByFitness
   );
   const [eliteChromo, mutateChromo] = splitAt(
-    Math.ceil(keepChromo.length * (1 / 3)),
+    Math.floor(keepChromo.length * (1 / 5)),
     keepChromo
   );
 
@@ -45,7 +45,7 @@ export const eliteScheme: EvolveScheme = async (population) => {
         const idx1 = Math.round(Math.random() * (keepSize - 1));
         const idx2 = Math.round(Math.random() * (keepSize - 1));
 
-        newChromo = crossOverRandScheme(keepChromo[idx1], keepChromo[idx2]);
+        newChromo = crossOverRand(keepChromo[idx1], keepChromo[idx2]);
       } else {
         // Mutation
         if (Math.random() < MUTATION_PROBABILITY)

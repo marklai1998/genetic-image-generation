@@ -5,7 +5,7 @@ import { Chromo, Polygon } from "../chromo";
 const CROSSOVER_PROBABILITY = 0.95;
 const MUTATION_PROBABILITY = 0.95;
 
-const crossOverPtScheme = (c1: Chromo, c2: Chromo) => {
+const crossOverPt = (c1: Chromo, c2: Chromo) => {
   const newChromo = new Chromo();
   const polyCount = newChromo.polygons.length;
 
@@ -19,7 +19,7 @@ const crossOverPtScheme = (c1: Chromo, c2: Chromo) => {
   return newChromo;
 };
 
-const crossOverRandScheme = (c1: Chromo, c2: Chromo) => {
+const crossOverRand = (c1: Chromo, c2: Chromo) => {
   const newChromo = new Chromo();
 
   const polyCount = newChromo.polygons.length;
@@ -49,8 +49,7 @@ export const randomScheme: EvolveScheme = async (population) => {
         // Crossover
         const idx1 = Math.round(Math.random() * splitIndex);
         const idx2 = Math.round(Math.random() * splitIndex);
-        const scheme =
-          Math.random() < 0.5 ? crossOverPtScheme : crossOverRandScheme;
+        const scheme = Math.random() < 0.5 ? crossOverPt : crossOverRand;
         newChromo = scheme(sortByFitness[idx1], sortByFitness[idx2]);
       } else {
         // Mutation

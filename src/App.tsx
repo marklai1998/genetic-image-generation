@@ -5,7 +5,7 @@ import { useMeasure, useMount, useRafLoop } from "react-use";
 import { generation, init, mainLoop, population } from "./genetic";
 import { drawChromo } from "./genetic/utils";
 
-const POP_SIZE = 30;
+const POP_SIZE = 50;
 const POLY_COUNT = 150;
 const VERTICES = 3;
 
