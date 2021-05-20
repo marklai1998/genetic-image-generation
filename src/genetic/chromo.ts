@@ -37,6 +37,24 @@ export class Point {
     this.#y = value < 0 || value > 1 ? Math.random() : value;
   }
 
+  mutate(perturbation: number) {
+    const shouldMutateX = Math.random() < 0.25;
+    if (shouldMutateX) {
+      this.x =
+        Math.random() < 0.5
+          ? this.x + Math.random() / perturbation
+          : this.x - Math.random() / perturbation;
+    }
+
+    const shouldMutateY = Math.random() < 0.25;
+    if (shouldMutateY) {
+      this.y =
+        Math.random() < 0.5
+          ? this.y + Math.random() / perturbation
+          : this.y - Math.random() / perturbation;
+    }
+  }
+
   static clone(point: Point) {
     const newPoint = new Point();
     newPoint.x = point.x;
@@ -73,6 +91,21 @@ export class Polygon {
       number,
       number
     ];
+  }
+
+  mutate(perturbation: number) {
+    this.color = this.color.map((value) => {
+      const shouldMutate = Math.random() < 0.25;
+      if (!shouldMutate) return value;
+
+      return Math.random() < 0.5
+        ? value + (10 * Math.random()) / perturbation
+        : value - (10 * Math.random()) / perturbation;
+    }) as [number, number, number, number];
+
+    this.vertices.forEach((vertex) => {
+      vertex.mutate(perturbation);
+    });
   }
 
   static clone(polygon: Polygon) {
@@ -119,25 +152,7 @@ export class Chromo {
 
   mutate(perturbation: number) {
     this.polygons.forEach((polygon) => {
-      polygon.color = polygon.color.map((value) =>
-        Math.random() < 0.25
-          ? Math.random() < 0.5
-            ? value + (10 * Math.random()) / perturbation
-            : value - (10 * Math.random()) / perturbation
-          : value
-      ) as [number, number, number, number];
-
-      polygon.vertices.forEach((vertex) => {
-        const { x, y } = vertex;
-        vertex.x =
-          Math.random() < 0.5
-            ? x + Math.random() / perturbation
-            : x - Math.random() / perturbation;
-        vertex.y =
-          Math.random() < 0.5
-            ? y + Math.random() / perturbation
-            : y - Math.random() / perturbation;
-      });
+      polygon.mutate(perturbation);
     });
   }
 }
