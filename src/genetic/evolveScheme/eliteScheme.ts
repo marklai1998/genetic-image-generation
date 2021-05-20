@@ -2,6 +2,11 @@ import { range, splitAt } from "ramda";
 import { EvolveScheme } from ".";
 import { Chromo, Polygon } from "../chromo";
 
+/*
+  Elite Scheme is inspired by the Evolution Simulator
+  https://www.youtube.com/watch?v=31dsH2Fs1IQ
+*/
+
 const CROSSOVER_PROBABILITY = 0.95;
 const MUTATION_PROBABILITY = 0.95;
 
@@ -26,7 +31,7 @@ export const eliteScheme: EvolveScheme = async (population) => {
   const sortByFitness = population.sort((a, b) => a.compare(b));
 
   const [keepChromo, killChromo] = splitAt(
-    Math.ceil(popSize * (1 / 3)),
+    Math.ceil(popSize * (1 / 2)),
     sortByFitness
   );
   const [eliteChromo, mutateChromo] = splitAt(
@@ -58,9 +63,13 @@ export const eliteScheme: EvolveScheme = async (population) => {
     })
   );
 
-  return [
-    ...eliteChromo,
-    ...mutatedChromo,
-    ...killChromo.map(() => new Chromo()),
-  ];
+  const newChromo = await Promise.all(
+    killChromo.map(async () => {
+      const newChromo = new Chromo();
+      await newChromo.calculateFitness();
+      return newChromo;
+    })
+  );
+
+  return [...eliteChromo, ...mutatedChromo, ...newChromo];
 };

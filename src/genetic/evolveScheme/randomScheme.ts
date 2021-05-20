@@ -2,6 +2,12 @@ import { range, splitAt } from "ramda";
 import { EvolveScheme } from ".";
 import { Chromo, Polygon } from "../chromo";
 
+/*
+  Elite Scheme is originated at
+  https://users.cg.tuwien.ac.at/zsolnai/gfx/mona_lisa_parallel_genetic_algorithm/
+  The speed of this strategy is not good on the web compare to the eliteScheme
+*/
+
 const CROSSOVER_PROBABILITY = 0.95;
 const MUTATION_PROBABILITY = 0.95;
 
