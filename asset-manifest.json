@@ -1,22 +1,22 @@
 {
   "files": {
-    "main.js": "/static/js/main.0397cd02.chunk.js",
-    "main.js.map": "/static/js/main.0397cd02.chunk.js.map",
-    "runtime-main.js": "/static/js/runtime-main.44a28d1b.js",
-    "runtime-main.js.map": "/static/js/runtime-main.44a28d1b.js.map",
-    "static/js/2.5fc66dd9.chunk.js": "/static/js/2.5fc66dd9.chunk.js",
-    "static/js/2.5fc66dd9.chunk.js.map": "/static/js/2.5fc66dd9.chunk.js.map",
-    "index.html": "/index.html",
-    "static/js/2.5fc66dd9.chunk.js.LICENSE.txt": "/static/js/2.5fc66dd9.chunk.js.LICENSE.txt",
-    "static/js/worker.33015658.worker.js": "/static/js/worker.33015658.worker.js",
-    "static/js/worker.33015658.worker.js.map": "/static/js/worker.33015658.worker.js.map",
-    "static/media/github-logo.38e30528.svg": "/static/media/github-logo.38e30528.svg",
-    "static/media/logo.14f0eb6d.svg": "/static/media/logo.14f0eb6d.svg",
-    "static/media/mona.c58c8fd8.png": "/static/media/mona.c58c8fd8.png"
+    "main.js": "/genetic-image-generation/static/js/main.01e497f4.chunk.js",
+    "main.js.map": "/genetic-image-generation/static/js/main.01e497f4.chunk.js.map",
+    "runtime-main.js": "/genetic-image-generation/static/js/runtime-main.c805b393.js",
+    "runtime-main.js.map": "/genetic-image-generation/static/js/runtime-main.c805b393.js.map",
+    "static/js/2.f125aa1b.chunk.js": "/genetic-image-generation/static/js/2.f125aa1b.chunk.js",
+    "static/js/2.f125aa1b.chunk.js.map": "/genetic-image-generation/static/js/2.f125aa1b.chunk.js.map",
+    "index.html": "/genetic-image-generation/index.html",
+    "static/js/2.f125aa1b.chunk.js.LICENSE.txt": "/genetic-image-generation/static/js/2.f125aa1b.chunk.js.LICENSE.txt",
+    "static/js/worker.4be51ca9.worker.js": "/genetic-image-generation/static/js/worker.4be51ca9.worker.js",
+    "static/js/worker.4be51ca9.worker.js.map": "/genetic-image-generation/static/js/worker.4be51ca9.worker.js.map",
+    "static/media/github-logo.38e30528.svg": "/genetic-image-generation/static/media/github-logo.38e30528.svg",
+    "static/media/logo.14f0eb6d.svg": "/genetic-image-generation/static/media/logo.14f0eb6d.svg",
+    "static/media/mona.c58c8fd8.png": "/genetic-image-generation/static/media/mona.c58c8fd8.png"
   },
   "entrypoints": [
-    "static/js/runtime-main.44a28d1b.js",
-    "static/js/2.5fc66dd9.chunk.js",
-    "static/js/main.0397cd02.chunk.js"
+    "static/js/runtime-main.c805b393.js",
+    "static/js/2.f125aa1b.chunk.js",
+    "static/js/main.01e497f4.chunk.js"
   ]
 }
