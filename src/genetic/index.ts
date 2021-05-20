@@ -4,7 +4,7 @@ import mona from "../assets/mona.png";
 
 import { Chromo } from "./chromo";
 import { eliteScheme } from "./evolveScheme/eliteScheme";
-import { randomScheme } from "./evolveScheme/randomScheme";
+// import { randomScheme } from "./evolveScheme/randomScheme";
 import { getCanvasData } from "./utils";
 
 export let generation = 0;
