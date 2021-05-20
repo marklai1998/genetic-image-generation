@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import styled, { createGlobalStyle } from "styled-components";
 import { Header } from "./components/Header";
 import { useMeasure, useRafLoop } from "react-use";
@@ -13,7 +13,8 @@ const POLY_COUNT = 150;
 const VERTICES = 3;
 
 export const App = () => {
-  const [containerRef, { width, height }] = useMeasure<HTMLDivElement>();
+  const [containerRef, { width: containerWidth, height: containerHeight }] =
+    useMeasure<HTMLDivElement>();
   const [start, setStart] = useState(false);
   const [viewSourceImg, setViewSourceImg] = useState(false);
   const [refImage, setRefImg] = useState(mona);
@@ -26,7 +27,7 @@ export const App = () => {
   useEffect(() => {
     const canvas = canvasRef.current;
     if (!canvas) return;
-    const lowestDimension = Math.min(width, height, 350);
+    const lowestDimension = Math.min(containerWidth, containerHeight, 350);
     canvas.width = lowestDimension;
     canvas.height = lowestDimension;
 
@@ -34,7 +35,7 @@ export const App = () => {
     if (!refImageCanvas) return;
     refImageCanvas.width = lowestDimension;
     refImageCanvas.height = lowestDimension;
-  }, [width, height]);
+  }, [containerWidth, containerHeight]);
 
   useEffect(() => {
     const loop = async () => {
@@ -58,23 +59,24 @@ export const App = () => {
     ctx.fillText(`Fitness: ${bestChromo.fitness}`, 10, 32);
   }, false);
 
-  useEffect(() => {
-    const setup = async () => {
-      setStart(false);
-      stopLoop();
+  const setup = useCallback(async () => {
+    setStart(false);
+    stopLoop();
 
-      await init({
-        refImage: refImage,
-        popSize: POP_SIZE,
-        vertices: VERTICES,
-        polyCount: POLY_COUNT,
-      });
-      const refImageCanvas = refImageRef.current;
-      if (!refImageCanvas) return;
-      await drawImg(refImage, refImageCanvas);
-    };
-    setup();
+    await init({
+      refImage: refImage,
+      popSize: POP_SIZE,
+      vertices: VERTICES,
+      polyCount: POLY_COUNT,
+    });
+    const refImageCanvas = refImageRef.current;
+    if (!refImageCanvas) return;
+    await drawImg(refImage, refImageCanvas);
   }, [refImage, stopLoop]);
+
+  useEffect(() => {
+    setup();
+  }, [setup]);
 
   const handleFlipStart = () => {
     if (start) {
@@ -114,12 +116,17 @@ export const App = () => {
           <ReactCardFlip isFlipped={viewSourceImg} flipDirection="horizontal">
             <div>
               <Canvas ref={canvasRef} />
-              <Button
-                color={start ? "#f50057" : "#1565c0"}
-                onClick={handleFlipStart}
-              >
-                {start ? "Stop" : "Start"}
-              </Button>
+              <InputGroup>
+                <Button
+                  color={start ? "#f50057" : "#1565c0"}
+                  onClick={handleFlipStart}
+                >
+                  {start ? "Pause" : "Start"}
+                </Button>
+                <Button color="#f50057" onClick={setup}>
+                  Reset
+                </Button>
+              </InputGroup>
             </div>
             <div>
               <Canvas ref={refImageRef} />
@@ -193,6 +200,10 @@ const Button = styled.button<{ color: string }>`
   color: #fff;
   position: relative;
   top: -4px;
+`;
+
+const InputGroup = styled.div`
+  display: flex;
 `;
 
 const StyledFileInput = styled.input`
