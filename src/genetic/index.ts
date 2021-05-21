@@ -24,8 +24,8 @@ export const init = async ({
   Chromo.polyCount = pCount;
   Chromo.verticesCount = vCount;
 
-  const canvasHeight = 350;
-  const canvasWidth = 350;
+  const canvasHeight = 100;
+  const canvasWidth = 100;
 
   Chromo.refChromoCanvas.width = canvasWidth;
   Chromo.refChromoCanvas.height = canvasHeight;
