@@ -4,7 +4,7 @@ import * as Comlink from "comlink";
 
 /* eslint-disable import/no-webpack-loader-syntax */
 // @ts-ignore
-import Worker from "worker-loader!./worker";
+import Worker from "./worker?worker";
 
 const worker = new Worker();
 const workerCalculateFitness =

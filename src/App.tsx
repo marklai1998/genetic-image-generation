@@ -195,7 +195,7 @@ button{
   font-family: 'Rajdhani', Microsoft JhengHei, sans-serif;
 }
 
-#root {
+#app {
   height: 100%;
   display: flex;
   flex-direction: column;
@@ -222,6 +222,7 @@ const Button = styled.button<{ color: string }>`
   border: 0;
   color: #fff;
   position: relative;
+  cursor: pointer;
 `;
 
 const InputGroup = styled.div`
