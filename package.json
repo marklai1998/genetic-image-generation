@@ -15,7 +15,7 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "postbuild": "precompress build"
+    "postbuild": "precompress dist"
   },
   "devDependencies": {
     "@types/ramda": "0.27.52",
