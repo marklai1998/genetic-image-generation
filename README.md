@@ -1,5 +1,7 @@
 # Genetic Image Generation
 
+![Build](https://github.com/marklai1998/genetic-image-generation/actions/workflows/main.yml/badge.svg) ![Test](https://github.com/marklai1998/genetic-image-generation/actions/workflows/runTest.yml/badge.svg)
+
 Web implementation of the [genetic mona problem](https://rogerjohansson.blog/2008/12/07/genetic-programming-evolution-of-mona-lisa/) with genetic programming.
 
 ## Procedure
@@ -23,3 +25,5 @@ $ npm start
 
 ## Tools
 This project was bootstrapped with [Vite](https://vitejs.dev/).
+
+This project is written in [TypeScript](https://www.typescriptlang.org/) with complete definitions.
