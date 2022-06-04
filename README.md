@@ -8,3 +8,18 @@ Web implementation of the [genetic mona problem](https://rogerjohansson.blog/200
 2. Calculate the fitness score of each chromo [Source](https://github.com/marklai1998/genetic-image-generation/blob/master/src/genetic/worker.ts)
 3. Evolve the population with predefined rule [Source](https://github.com/marklai1998/genetic-image-generation/tree/master/src/genetic/evolveScheme)
 4. Calculate the fitness score and repeat the evolution process
+
+## Getting Started
+1. Clone the repository
+
+2. Install dependency
+```
+$ npm install
+```
+3. Start the project
+```
+$ npm start
+```
+
+## Tools
+This project was bootstrapped with [Vite](https://vitejs.dev/).
