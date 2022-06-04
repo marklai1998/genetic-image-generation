@@ -1,7 +1,8 @@
 {
   "name": "genetic-image-generation",
   "version": "0.1.0",
-  "private": true,
+  "author": "Mark Lai",
+  "license": "MIT",
   "homepage": "https://marklai1998.github.io/genetic-image-generation/",
   "scripts": {
     "start": "vite",
