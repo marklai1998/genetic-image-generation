@@ -11,7 +11,7 @@
     "test": "tsc"
   },
   "dependencies": {
-    "comlink": "4.3.1",
+    "comlink": "4.4.1",
     "ramda": "0.28.0",
     "react": "18.1.0",
     "react-card-flip": "1.1.5",
