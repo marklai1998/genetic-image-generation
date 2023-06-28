@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useRef, useState } from 'react'
-import styled, { createGlobalStyle } from 'styled-components'
+import styled from '@emotion/styled'
 import { Header } from './components/Header'
 import { useMeasure, useRafLoop, useRafState } from 'react-use'
 import { init, population, startLoop, stopLoop } from './genetic'
@@ -9,6 +9,7 @@ import mona from './assets/mona.png'
 import { head } from 'ramda'
 import { Chromo } from './genetic/chromo'
 import { ChromoCanvas } from './components/ChromoCanvas'
+import { Global, css } from '@emotion/react'
 
 const POP_SIZE = 50
 const POLY_COUNT = 150
@@ -96,7 +97,31 @@ export const App = () => {
 
   return (
     <>
-      <GlobalStyle />
+      <Global
+        styles={css`
+          html {
+            height: 100%;
+          }
+
+          body {
+            margin: 0;
+            padding: 0;
+            font-family: 'Rajdhani', Microsoft JhengHei, sans-serif;
+            background-color: #151515;
+            height: 100%;
+          }
+
+          button {
+            font-family: 'Rajdhani', Microsoft JhengHei, sans-serif;
+          }
+
+          #app {
+            height: 100%;
+            display: flex;
+            flex-direction: column;
+          }
+        `}
+      />{' '}
       <Header />
       <Content ref={containerRef}>
         <div>
@@ -177,30 +202,6 @@ export const App = () => {
     </>
   )
 }
-
-const GlobalStyle = createGlobalStyle`
-html {
-  height: 100%;
-}
-
-body {
-  margin: 0;
-  padding: 0;
-  font-family: 'Rajdhani', Microsoft JhengHei, sans-serif;
-  background-color: #151515;
-  height: 100%;
-}
-
-button{
-  font-family: 'Rajdhani', Microsoft JhengHei, sans-serif;
-}
-
-#app {
-  height: 100%;
-  display: flex;
-  flex-direction: column;
-}
-`
 
 const Content = styled.div`
   height: 100%;

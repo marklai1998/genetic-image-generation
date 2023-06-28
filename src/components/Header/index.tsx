@@ -1,7 +1,7 @@
 import React from 'react'
 import logo from '../../assets/logo.svg'
 import ghLogo from '../../assets/github-logo.svg'
-import styled from 'styled-components'
+import styled from '@emotion/styled'
 
 export const Header = () => (
   <Wrapper>

@@ -14,19 +14,19 @@
     "test": "tsc"
   },
   "dependencies": {
+    "@emotion/react": "11.11.1",
+    "@emotion/styled": "11.11.0",
     "comlink": "4.4.1",
     "ramda": "0.29.0",
     "react": "18.2.0",
     "react-card-flip": "1.2.0",
     "react-dom": "18.2.0",
-    "react-use": "17.4.0",
-    "styled-components": "5.3.11"
+    "react-use": "17.4.0"
   },
   "devDependencies": {
     "@types/ramda": "0.29.2",
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
-    "@types/styled-components": "5.1.26",
     "@vitejs/plugin-react": "4.0.1",
     "precompress": "11.2.1",
     "prettier": "2.8.8",
