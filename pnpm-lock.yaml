@@ -43,9 +43,6 @@ devDependencies:
   '@vitejs/plugin-react':
     specifier: 4.0.1
     version: 4.0.1(vite@4.3.9)
-  precompress:
-    specifier: 11.2.1
-    version: 11.2.1
   prettier:
     specifier: 2.8.8
     version: 2.8.8
@@ -1359,12 +1356,6 @@ packages:
       nanoid: 3.3.6
       picocolors: 1.0.0
       source-map-js: 1.0.2
-    dev: true
-
-  /precompress@11.2.1:
-    resolution: {integrity: sha512-OBBz3fUf2DycCefY0bkMptr7sjjRWIKIJlc/8ppbBBJbhHL3mw2WfZV2XL7xtwgdFpWWdNkkfdmczHOfI8jHgQ==}
-    engines: {node: '>=16'}
-    hasBin: true
     dev: true
 
   /prettier@2.8.8:

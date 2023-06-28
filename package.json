@@ -10,7 +10,6 @@
   "scripts": {
     "start": "vite",
     "build": "vite build",
-    "postbuild": "precompress dist",
     "test": "tsc"
   },
   "dependencies": {
@@ -28,7 +27,6 @@
     "@types/react": "18.2.14",
     "@types/react-dom": "18.2.6",
     "@vitejs/plugin-react": "4.0.1",
-    "precompress": "11.2.1",
     "prettier": "2.8.8",
     "typescript": "5.1.5",
     "vite": "4.3.9",
