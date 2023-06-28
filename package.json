@@ -20,7 +20,7 @@
     "react-card-flip": "1.2.0",
     "react-dom": "18.2.0",
     "react-use": "17.4.0",
-    "styled-components": "5.3.11"
+    "styled-components": "6.0.0"
   },
   "devDependencies": {
     "@types/ramda": "0.29.2",
