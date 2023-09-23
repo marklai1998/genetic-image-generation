@@ -21,8 +21,8 @@ dependencies:
     specifier: 18.2.0
     version: 18.2.0
   react-card-flip:
-    specifier: 1.2.0
-    version: 1.2.0(react-dom@18.2.0)(react@18.2.0)
+    specifier: 1.2.1
+    version: 1.2.1(react-dom@18.2.0)(react@18.2.0)
   react-dom:
     specifier: 18.2.0
     version: 18.2.0(react@18.2.0)
@@ -1377,8 +1377,8 @@ packages:
       safe-buffer: 5.2.1
     dev: true
 
-  /react-card-flip@1.2.0(react-dom@18.2.0)(react@18.2.0):
-    resolution: {integrity: sha512-5/tbaSBoTTdxV2glail7fr7W7CqNG/4BOm17pNmI1b6TwtRRUrElPdAO4h235MGU2dDwqyWBzO+H8y2Ax6BTpA==}
+  /react-card-flip@1.2.1(react-dom@18.2.0)(react@18.2.0):
+    resolution: {integrity: sha512-FvUcwuSsnWiJtcEKDfgzUV1feBS3glTUJRWNgnhK1sxJHhj7c+cK1UxEutVFxJTN1ia065o80+/cwZpDn8XqMg==}
     peerDependencies:
       react: ^18.2.0
       react-dom: ^18.2.0
