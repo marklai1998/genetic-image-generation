@@ -5,7 +5,7 @@
   "license": "MIT",
   "homepage": "https://marklai1998.github.io/genetic-image-generation/",
   "engines": {
-    "node": "^18"
+    "node": "^20.0.0"
   },
   "scripts": {
     "start": "vite",
