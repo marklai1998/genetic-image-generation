@@ -13,7 +13,7 @@
     "test": "tsc"
   },
   "dependencies": {
-    "@emotion/react": "11.13.0",
+    "@emotion/react": "11.13.3",
     "@emotion/styled": "11.13.0",
     "comlink": "4.4.1",
     "ramda": "0.30.1",
