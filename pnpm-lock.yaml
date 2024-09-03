@@ -42,7 +42,7 @@ devDependencies:
     version: 18.3.0
   '@vitejs/plugin-react':
     specifier: 4.3.1
-    version: 4.3.1(vite@5.4.2)
+    version: 4.3.1(vite@5.4.3)
   prettier:
     specifier: 3.3.3
     version: 3.3.3
@@ -50,8 +50,8 @@ devDependencies:
     specifier: 5.5.4
     version: 5.5.4
   vite:
-    specifier: 5.4.2
-    version: 5.4.2
+    specifier: 5.4.3
+    version: 5.4.3
   worker-loader:
     specifier: 3.0.8
     version: 3.0.8(webpack@5.88.0)
@@ -869,7 +869,7 @@ packages:
       '@types/prop-types': 15.7.5
       csstype: 3.1.2
 
-  /@vitejs/plugin-react@4.3.1(vite@5.4.2):
+  /@vitejs/plugin-react@4.3.1(vite@5.4.3):
     resolution: {integrity: sha512-m/V2syj5CuVnaxcUJOQRel/Wr31FFXRFlnOoq1TVtkCxsY5veGMTEmpWHndrhB2U8ScHtCQB1e+4hWYExQc6Lg==}
     engines: {node: ^14.18.0 || >=16.0.0}
     peerDependencies:
@@ -880,7 +880,7 @@ packages:
       '@babel/plugin-transform-react-jsx-source': 7.24.1(@babel/core@7.24.5)
       '@types/babel__core': 7.20.5
       react-refresh: 0.14.2
-      vite: 5.4.2
+      vite: 5.4.3
     transitivePeerDependencies:
       - supports-color
     dev: true
@@ -1518,8 +1518,8 @@ packages:
   /picocolors@1.0.1:
     resolution: {integrity: sha512-anP1Z8qwhkbmu7MFP5iTt+wQKXgwzf7zTyGlcdzabySa9vd0Xt392U0rVmz9poOaBj0uHJKyyo9/upk0HrEQew==}
 
-  /postcss@8.4.41:
-    resolution: {integrity: sha512-TesUflQ0WKZqAvg52PWL6kHgLKP6xB6heTOdoYM0Wt2UHyxNa4K25EZZMgKns3BH1RLVbZCREPpLY0rhnNoHVQ==}
+  /postcss@8.4.44:
+    resolution: {integrity: sha512-Aweb9unOEpQ3ezu4Q00DPvvM2ZTUitJdNKeP/+uQgr1IBIqu574IaZoURId7BKtWMREwzKa9OgzPzezWGPWFQw==}
     engines: {node: ^10 || ^12 || >=14}
     dependencies:
       nanoid: 3.3.7
@@ -1883,8 +1883,8 @@ packages:
       punycode: 2.3.0
     dev: true
 
-  /vite@5.4.2:
-    resolution: {integrity: sha512-dDrQTRHp5C1fTFzcSaMxjk6vdpKvT+2/mIdE07Gw2ykehT49O0z/VHS3zZ8iV/Gh8BJJKHWOe5RjaNrW5xf/GA==}
+  /vite@5.4.3:
+    resolution: {integrity: sha512-IH+nl64eq9lJjFqU+/yrRnrHPVTlgy42/+IzbOdaFDVlyLgI/wDlf+FCobXLX1cT0X5+7LMyH1mIy2xJdLfo8Q==}
     engines: {node: ^18.0.0 || >=20.0.0}
     hasBin: true
     peerDependencies:
@@ -1915,7 +1915,7 @@ packages:
         optional: true
     dependencies:
       esbuild: 0.21.5
-      postcss: 8.4.41
+      postcss: 8.4.44
       rollup: 4.21.0
     optionalDependencies:
       fsevents: 2.3.3
