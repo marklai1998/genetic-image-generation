@@ -7,10 +7,10 @@ settings:
 dependencies:
   '@emotion/react':
     specifier: 11.13.5
-    version: 11.13.5(@types/react@18.3.13)(react@18.3.1)
+    version: 11.13.5(@types/react@18.3.14)(react@18.3.1)
   '@emotion/styled':
     specifier: 11.13.5
-    version: 11.13.5(@emotion/react@11.13.5)(@types/react@18.3.13)(react@18.3.1)
+    version: 11.13.5(@emotion/react@11.13.5)(@types/react@18.3.14)(react@18.3.1)
   comlink:
     specifier: 4.4.2
     version: 4.4.2
@@ -35,11 +35,11 @@ devDependencies:
     specifier: 0.30.2
     version: 0.30.2
   '@types/react':
-    specifier: 18.3.13
-    version: 18.3.13
+    specifier: 18.3.14
+    version: 18.3.14
   '@types/react-dom':
-    specifier: 18.3.1
-    version: 18.3.1
+    specifier: 18.3.2
+    version: 18.3.2
   '@vitejs/plugin-react':
     specifier: 4.3.4
     version: 4.3.4(vite@6.0.3)
@@ -371,7 +371,7 @@ packages:
     resolution: {integrity: sha512-30FAj7/EoJ5mwVPOWhAyCX+FPfMDrVecJAM+Iw9NRoSl4BBAQeqj4cApHHUXOVvIPgLVDsCFoz/hGD+5QQD1GQ==}
     dev: false
 
-  /@emotion/react@11.13.5(@types/react@18.3.13)(react@18.3.1):
+  /@emotion/react@11.13.5(@types/react@18.3.14)(react@18.3.1):
     resolution: {integrity: sha512-6zeCUxUH+EPF1s+YF/2hPVODeV/7V07YU5x+2tfuRL8MdW6rv5vb2+CBEGTGwBdux0OIERcOS+RzxeK80k2DsQ==}
     peerDependencies:
       '@types/react': '*'
@@ -387,7 +387,7 @@ packages:
       '@emotion/use-insertion-effect-with-fallbacks': 1.1.0(react@18.3.1)
       '@emotion/utils': 1.4.2
       '@emotion/weak-memoize': 0.4.0
-      '@types/react': 18.3.13
+      '@types/react': 18.3.14
       hoist-non-react-statics: 3.3.2
       react: 18.3.1
     transitivePeerDependencies:
@@ -408,7 +408,7 @@ packages:
     resolution: {integrity: sha512-fTBW9/8r2w3dXWYM4HCB1Rdp8NLibOw2+XELH5m5+AkWiL/KqYX6dc0kKYlaYyKjrQ6ds33MCdMPEwgs2z1rqg==}
     dev: false
 
-  /@emotion/styled@11.13.5(@emotion/react@11.13.5)(@types/react@18.3.13)(react@18.3.1):
+  /@emotion/styled@11.13.5(@emotion/react@11.13.5)(@types/react@18.3.14)(react@18.3.1):
     resolution: {integrity: sha512-gnOQ+nGLPvDXgIx119JqGalys64lhMdnNQA9TMxhDA4K0Hq5+++OE20Zs5GxiCV9r814xQ2K5WmtofSpHVW6BQ==}
     peerDependencies:
       '@emotion/react': ^11.0.0-rc.0
@@ -421,11 +421,11 @@ packages:
       '@babel/runtime': 7.22.5
       '@emotion/babel-plugin': 11.13.5
       '@emotion/is-prop-valid': 1.3.0
-      '@emotion/react': 11.13.5(@types/react@18.3.13)(react@18.3.1)
+      '@emotion/react': 11.13.5(@types/react@18.3.14)(react@18.3.1)
       '@emotion/serialize': 1.3.3
       '@emotion/use-insertion-effect-with-fallbacks': 1.1.0(react@18.3.1)
       '@emotion/utils': 1.4.2
-      '@types/react': 18.3.13
+      '@types/react': 18.3.14
       react: 18.3.1
     transitivePeerDependencies:
       - supports-color
@@ -915,14 +915,14 @@ packages:
       types-ramda: 0.30.1
     dev: true
 
-  /@types/react-dom@18.3.1:
-    resolution: {integrity: sha512-qW1Mfv8taImTthu4KoXgDfLuk4bydU6Q/TkADnDWWHwi4NX4BR+LWfTp2sVmTqRrsHvyDDTelgelxJ+SsejKKQ==}
+  /@types/react-dom@18.3.2:
+    resolution: {integrity: sha512-Fqp+rcvem9wEnGr3RY8dYNvSQ8PoLqjZ9HLgaPUOjJJD120uDyOxOjc/39M4Kddp9JQCxpGQbnhVQF0C0ncYVg==}
     dependencies:
-      '@types/react': 18.3.13
+      '@types/react': 18.3.14
     dev: true
 
-  /@types/react@18.3.13:
-    resolution: {integrity: sha512-ii/gswMmOievxAJed4PAHT949bpYjPKXvXo1v6cRB/kqc2ZR4n+SgyCyvyc5Fec5ez8VnUumI1Vk7j6fRyRogg==}
+  /@types/react@18.3.14:
+    resolution: {integrity: sha512-NzahNKvjNhVjuPBQ+2G7WlxstQ+47kXZNHlUvFakDViuIEfGY926GqhMueQFZ7woG+sPiQKlF36XfrIUVSUfFg==}
     dependencies:
       '@types/prop-types': 15.7.5
       csstype: 3.1.2
