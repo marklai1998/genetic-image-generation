@@ -27,8 +27,8 @@ dependencies:
     specifier: 18.3.1
     version: 18.3.1(react@18.3.1)
   react-use:
-    specifier: 17.5.1
-    version: 17.5.1(react-dom@18.3.1)(react@18.3.1)
+    specifier: 17.6.0
+    version: 17.6.0(react-dom@18.3.1)(react@18.3.1)
 
 devDependencies:
   '@types/ramda':
@@ -1546,8 +1546,8 @@ packages:
       tslib: 2.5.3
     dev: false
 
-  /react-use@17.5.1(react-dom@18.3.1)(react@18.3.1):
-    resolution: {integrity: sha512-LG/uPEVRflLWMwi3j/sZqR00nF6JGqTTDblkXK2nzXsIvij06hXl1V/MZIlwj1OKIQUtlh1l9jK8gLsRyCQxMg==}
+  /react-use@17.6.0(react-dom@18.3.1)(react@18.3.1):
+    resolution: {integrity: sha512-OmedEScUMKFfzn1Ir8dBxiLLSOzhKe/dPZwVxcujweSj45aNM7BEGPb9BEVIgVEqEXx6f3/TsXzwIktNgUR02g==}
     peerDependencies:
       react: '*'
       react-dom: '*'
